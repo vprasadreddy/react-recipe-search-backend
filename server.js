@@ -14,6 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /* express.json() is included by default in newer versions of express. Else we have to use bodyParser.json() */
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Hey this is my API running 🥳");
+});
+
 app.get("/recipes/:recipeName", (req, res) => {
   const recipeName = req.params.recipeName;
   let apiUrl = `https://api.edamam.com/search?q=${recipeName}&app_id=${process.env.APP_ID}&app_key=${process.env.API_KEY}&from=0&to=12&calories=591-722&health=alcohol-free`;
