@@ -20,10 +20,16 @@ app.get("/", (req, res) => {
 
 app.get("/recipes/:recipeName", (req, res) => {
   const recipeName = req.params.recipeName;
-  let apiUrl = `https://api.edamam.com/api/recipes/v2?type=public&q=${recipeName}&app_id=${process.env.APP_ID}&app_key=${process.env.API_KEY}&from=0&to=12&calories=591-722&health=alcohol-free`;
+  const app_id = process.env.APP_ID;
+  const api_key = process.env.API_KEY;
+  let apiUrl = `https://api.edamam.com/api/recipes/v2?type=public&q=${recipeName}&random=true&app_id=${app_id}&app_key=${api_key}`;
   try {
     axios
-      .get(apiUrl)
+      .get(apiUrl, {
+        headers: {
+          "Edamam-Account-User": app_id,
+        },
+      })
       .then((response) => {
         //console.log(response.data);
         res.status(200).json(response.data);
